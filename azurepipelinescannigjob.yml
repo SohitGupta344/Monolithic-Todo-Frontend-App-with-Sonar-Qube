@@ -26,7 +26,12 @@ stages:
     - task: SonarQubePublish@5
       inputs:
         pollingTimeoutSec: '300'
-  
+    - task: SonarQubePrepare@5
+      inputs:
+        SonarQube: 'sonar-qube'
+        scannerMode: 'CLI'
+        configMode: 'file'
+
 # - job: lint
 #   dependsOn: staticAnalysis
 #   continueOnError: true

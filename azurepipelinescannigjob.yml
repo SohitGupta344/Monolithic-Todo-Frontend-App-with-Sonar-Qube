@@ -12,6 +12,8 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        cd $(System.DefaultWorkingDirectory)
+        
         sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_127508810cc6520d6ac4f8deb0d35a552d48808e -Dsonar.projectKey=Todo-App-New
         
         exit 0
@@ -26,6 +28,8 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        cd $(System.DefaultWorkingDirectory)
+        
         Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
         $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src/
   - task: PowerShell@2
@@ -34,6 +38,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        cd $(System.DefaultWorkingDirectory)
         npm install -g stylelint
         npm install -g stylelint-config-standard        
         stylelint $(System.DefaultWorkingDirectory)/src --config stylelint.config.mjs

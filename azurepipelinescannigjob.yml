@@ -12,25 +12,23 @@ stages:
   displayName: SonarQube Scan
   jobs:
   - job: sonarscan
+    displayName: sonarscan
     steps:
-    - task: SonarQubePrepare@5
+    - task: SonarQubePrepare@8
+      displayName: SonarPrepration
       inputs:
-        SonarQube: 'sonar-qube'
-        scannerMode: 'CLI'
+        SonarQube: 'sonar-qube-22dec2025'
+        scannerMode: 'cli'
         configMode: 'file'
-
-    - task: SonarQubeAnalyze@5
+    - task: SonarQubeAnalyze@8
+      displayName: Sonarresultprepration
       inputs:
         jdkversion: 'JAVA_HOME_17_X64'
-
-    - task: SonarQubePublish@5
+    - task: SonarQubePublish@8
+      displayName: Qualitygates
       inputs:
         pollingTimeoutSec: '300'
-    - task: SonarQubePrepare@5
-      inputs:
-        SonarQube: 'sonar-qube'
-        scannerMode: 'CLI'
-        configMode: 'file'
+  
 
 # - job: lint
 #   dependsOn: staticAnalysis

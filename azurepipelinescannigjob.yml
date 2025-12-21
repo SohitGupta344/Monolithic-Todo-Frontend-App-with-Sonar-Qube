@@ -18,75 +18,75 @@ jobs:
         
         exit 0
 
-- job: lint
-  dependsOn: staticAnalysis
-  continueOnError: true
-  displayName: Lint
-  steps:
-  - task: PowerShell@2
-    continueOnError: true
-    displayName: Lint JavaScript(Biome)
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd $(System.DefaultWorkingDirectory)
+# - job: lint
+#   dependsOn: staticAnalysis
+#   continueOnError: true
+#   displayName: Lint
+#   steps:
+#   - task: PowerShell@2
+#     continueOnError: true
+#     displayName: Lint JavaScript(Biome)
+#     inputs:
+#       targetType: 'inline'
+#       script: |
+#         cd $(System.DefaultWorkingDirectory)
         
-        Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
-        $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src/
+#         Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
+#         $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src/
         
-        exit 0
-  - task: PowerShell@2
-    continueOnError: true
-    displayName: Lint CSS(Styelint)  
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd $(System.DefaultWorkingDirectory)
-        npm install -g stylelint
-        npm install -g stylelint-config-standard        
-        stylelint $(System.DefaultWorkingDirectory)/src --config stylelint.config.mjs
-        exit 0
+#         exit 0
+#   - task: PowerShell@2
+#     continueOnError: true
+#     displayName: Lint CSS(Styelint)  
+#     inputs:
+#       targetType: 'inline'
+#       script: |
+#         cd $(System.DefaultWorkingDirectory)
+#         npm install -g stylelint
+#         npm install -g stylelint-config-standard        
+#         stylelint $(System.DefaultWorkingDirectory)/src --config stylelint.config.mjs
+#         exit 0
 
-  - task: PowerShell@2
-    continueOnError: true
-    displayName: Lint YAML(yamllint)    
-    inputs:
-      targetType: 'inline'
-      script: |
-        pip install --user yamllint
-        yamllint $(System.DefaultWorkingDirectory)
-        exit 0
+#   - task: PowerShell@2
+#     continueOnError: true
+#     displayName: Lint YAML(yamllint)    
+#     inputs:
+#       targetType: 'inline'
+#       script: |
+#         pip install --user yamllint
+#         yamllint $(System.DefaultWorkingDirectory)
+#         exit 0
 
-  - task: PowerShell@2
-    continueOnError: true
-    displayName: Lint Markdown(markdownlint)      
-    inputs:
-      targetType: 'inline'
-      script: |
-        npm install -g markdownlint-cli      
-        markdownlint $(System.DefaultWorkingDirectory)/
-        exit 0
+#   - task: PowerShell@2
+#     continueOnError: true
+#     displayName: Lint Markdown(markdownlint)      
+#     inputs:
+#       targetType: 'inline'
+#       script: |
+#         npm install -g markdownlint-cli      
+#         markdownlint $(System.DefaultWorkingDirectory)/
+#         exit 0
         
-- job: build
-  dependsOn: lint
-  displayName: Build
-  steps:
-  - task: NodeTool@0
-    inputs:
-      versionSource: 'spec'
-      versionSpec: '16.x'
-  - task: PowerShell@2
-    displayName: Npm Install
-    inputs:
-      targetType: 'inline'
-      script: 'npm install'
-  - task: PowerShell@2
-    displayName: Npm Run Build
-    inputs:
-      targetType: 'inline'
-      script: 'npm run build'
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/build/'
-      artifact: 'todo-ui'
-      publishLocation: 'pipeline'
+# - job: build
+#   dependsOn: lint
+#   displayName: Build
+#   steps:
+#   - task: NodeTool@0
+#     inputs:
+#       versionSource: 'spec'
+#       versionSpec: '16.x'
+#   - task: PowerShell@2
+#     displayName: Npm Install
+#     inputs:
+#       targetType: 'inline'
+#       script: 'npm install'
+#   - task: PowerShell@2
+#     displayName: Npm Run Build
+#     inputs:
+#       targetType: 'inline'
+#       script: 'npm run build'
+#   - task: PublishPipelineArtifact@1
+#     inputs:
+#       targetPath: '$(System.DefaultWorkingDirectory)/build/'
+#       artifact: 'todo-ui'
+#       publishLocation: 'pipeline'

@@ -10,7 +10,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       targetType: 'inline'
-      script: 'sonar -D sonar.host.url=http://localhost:9000 -D sonar.token=sqp_127508810cc6520d6ac4f8deb0d35a552d48808e -D sonar.projectKey=Todo-App-New'
+      script: 'sonar-scanner -Dsonar.projectKey=Todo-App -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_127508810cc6520d6ac4f8deb0d35a552d48808e'
 
 - job: lint
   dependsOn: staticAnalysis

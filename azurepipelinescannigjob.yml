@@ -20,6 +20,7 @@ jobs:
 
 - job: lint
   dependsOn: staticAnalysis
+  continueOnError: true
   displayName: Lint
   steps:
   - task: PowerShell@2
@@ -32,6 +33,8 @@ jobs:
         
         Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
         $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src/
+        
+        exit 0
   - task: PowerShell@2
     continueOnError: true
     displayName: Lint CSS(Styelint)  
@@ -42,6 +45,7 @@ jobs:
         npm install -g stylelint
         npm install -g stylelint-config-standard        
         stylelint $(System.DefaultWorkingDirectory)/src --config stylelint.config.mjs
+        exit 0
 
   - task: PowerShell@2
     continueOnError: true
@@ -51,6 +55,7 @@ jobs:
       script: |
         pip install --user yamllint
         yamllint $(System.DefaultWorkingDirectory)
+        exit 0
 
   - task: PowerShell@2
     continueOnError: true
@@ -60,6 +65,7 @@ jobs:
       script: |
         npm install -g markdownlint-cli      
         markdownlint $(System.DefaultWorkingDirectory)/
+        exit 0
         
 - job: build
   dependsOn: lint

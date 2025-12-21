@@ -3,21 +3,30 @@ trigger:
 
 pool: Default
 
-jobs:
-- job: staticAnalysis
-  displayName: Static Analysis(SonarQube)
-  continueOnError: true
-  steps:
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: |
-        cd $(System.DefaultWorkingDirectory)
-        
-        sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_127508810cc6520d6ac4f8deb0d35a552d48808e -Dsonar.projectKey=Todo-App-New
-        
-        exit 0
+stages:
 
+# =========================
+# STAGE 1: SONARQUBE SCAN
+# =========================
+- stage: sonarscan
+  displayName: SonarQube Scan
+  jobs:
+  - job: sonarscan
+    steps:
+    - task: SonarQubePrepare@5
+      inputs:
+        SonarQube: 'sonar-qube'
+        scannerMode: 'CLI'
+        configMode: 'file'
+
+    - task: SonarQubeAnalyze@5
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+
+    - task: SonarQubePublish@5
+      inputs:
+        pollingTimeoutSec: '300'
+  
 # - job: lint
 #   dependsOn: staticAnalysis
 #   continueOnError: true

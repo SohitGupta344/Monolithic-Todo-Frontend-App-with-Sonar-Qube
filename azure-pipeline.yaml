@@ -25,26 +25,17 @@ stages:
   - job: SonarQubeAnalysis
     displayName: Static Code Analysis (SonarQube)
     steps:
-    - task: SonarQubePrepare@8
-      displayName: PrepareSonar
+    - task: PowerShell@2
       inputs:
-        SonarQube: 'sonar-qube'
-        scannerMode: 'cli'
-        configMode: 'file'
-    
-    - task: SonarQubeAnalyze@8
-      displayName: Sonarqubeanalyze
-      inputs:
-        jdkversion: 'JAVA_HOME_17_X64'
-    
-
-    - task: SonarQubePublish@8
-      displayName: Qualitygate
-      inputs:
-        pollingTimeoutSec: '300'
-    
-
-    
+        targetType: 'inline'
+        script: |
+          sonar-scanner ^
+                      -Dsonar.projectKey=todo-app-new ^
+                      -Dsonar.projectName=todo-app-new ^
+                      -Dsonar.sources=src ^
+                      -Dsonar.exclusions=node_modules/**,build/** ^
+                      -Dsonar.host.url=http://localhost:9000 ^
+                      -Dsonar.token=sqa_158920359fd649e433bdb8559f98a32ff20fdd04
 
 # - stage: CodeQualityChecks
 #   displayName: Code Quality & Linting

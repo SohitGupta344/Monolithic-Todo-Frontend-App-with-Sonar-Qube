@@ -139,8 +139,6 @@ stages:
         sshEndpoint: 'sohit-vm-ssh'
         runOptions: 'inline'
         inline: |
-          sudo apt update
-          sudo apt install nginx -y
           sudo rm -rf /var/www/html/*
           sudo cp -r /tmp/todo-ui/* /var/www/html/
           sudo chown -R www-data:www-data /var/www/html

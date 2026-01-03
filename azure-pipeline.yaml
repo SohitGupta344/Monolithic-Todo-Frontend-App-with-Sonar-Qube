@@ -109,3 +109,37 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)/build/'
         artifact: 'todo-ui'
         publishLocation: 'pipeline'
+
+- stage: DeployToVM
+  displayName: Deploy Artifact to VM (Nginx)
+  dependsOn: BuildAndPackage
+  condition: succeeded()
+  jobs:
+  - job: DeployToLinuxVM
+    displayName: Deploy to Azure VM using SSH
+    steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: Download Build Artifact
+      inputs:
+        artifact: 'todo-ui'
+        path: '$(Pipeline.Workspace)/todo-ui'
+
+    - task: CopyFilesOverSSH@0
+      displayName: Copy Artifact to VM
+      inputs:
+        sshEndpoint: 'sohit-vm-ssh'
+        sourceFolder: '$(Pipeline.Workspace)/todo-ui'
+        targetFolder: '/tmp/todo-ui'
+        cleanTargetFolder: true
+        overwrite: true
+    - task: SSH@0
+      displayName: Deploy to Nginx Root
+      inputs:
+        sshEndpoint: 'sohit-vm-ssh'
+        runOptions: 'inline'
+        inline: |
+          sudo rm -rf /var/www/html/*
+          sudo cp -r /tmp/todo-ui/* /var/www/html/
+          sudo chown -R www-data:www-data /var/www/html
+          sudo chmod -R 755 /var/www/html
+          sudo systemctl restart nginx

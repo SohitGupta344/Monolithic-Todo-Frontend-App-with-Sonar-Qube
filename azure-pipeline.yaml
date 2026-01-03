@@ -26,21 +26,24 @@ stages:
     displayName: Static Code Analysis (SonarQube)
     steps:
     - task: SonarQubePrepare@8
-      displayName: Prepare SonarQube
+      displayName: PrepareSonar
       inputs:
         SonarQube: 'sonar-qube'
         scannerMode: 'cli'
         configMode: 'file'
-          
-    - task: SonarQubeAnalyze@8
-      displayName: Run SonarQube Analysis
-      inputs:
-        jdkversion: 'JAVA_HOME_21_X64'
     
-    - task: SonarCloudPublish@4
-      displayName:  Publish Quality Gate Result
+    - task: SonarQubeAnalyze@8
+      displayName: Sonarqubeanalyze
+      inputs:
+        jdkversion: 'JAVA_HOME_17_X64'
+    
+
+    - task: SonarQubePublish@8
+      displayName: Qualitygate
       inputs:
         pollingTimeoutSec: '300'
+    
+
     
 
 # - stage: CodeQualityChecks

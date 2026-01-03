@@ -30,7 +30,9 @@ stages:
       inputs:
         SonarQube: 'sonar-qube'
         scannerMode: 'cli'
-        configMode: 'file'
+        configMode: 'manual'
+        cliProjectKey: 'todo-app-new'
+        cliSources: '.'
         extraProperties: |
           sonar.branch.name=
           sonar.pullrequest.key=

@@ -31,11 +31,6 @@ stages:
         SonarQube: 'sonar-qube'
         scannerMode: 'cli'
         configMode: 'file'
-        extraProperties: |
-          sonar.branch.name=
-          sonar.pullrequest.key=
-          sonar.pullrequest.branch=
-          sonar.pullrequest.base=
           
     - task: SonarQubeAnalyze@8
       displayName: Run SonarQube Analysis

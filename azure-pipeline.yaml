@@ -64,9 +64,10 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          python -m pip install --upgrade pip
+          python --version
+                python -m pip install --upgrade pip
                 python -m pip install yamllint
-                yamllint $(System.DefaultWorkingDirectory)
+                python -m yamllint $(System.DefaultWorkingDirectory)
                 exit 0
 
     - task: PowerShell@2

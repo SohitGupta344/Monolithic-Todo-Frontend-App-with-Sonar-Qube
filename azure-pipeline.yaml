@@ -57,15 +57,7 @@ stages:
           npm install -g stylelint-config-standard        
           stylelint $(System.DefaultWorkingDirectory)/src --config stylelint.config.mjs
           exit  0
-
-    - task: UsePythonVersion@0
-      displayName: Setup Python for yamllint
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-        architecture: 'x64'
-     
-
+          
     - task: PowerShell@2
       continueOnError: true
       displayName: YAML Linting (yamllint)    

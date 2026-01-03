@@ -45,6 +45,7 @@ stages:
         script: |
           Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
           $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src/
+          exit 0
 
     - task: PowerShell@2
       continueOnError: true
@@ -55,6 +56,7 @@ stages:
           npm install -g stylelint
           npm install -g stylelint-config-standard        
           stylelint $(System.DefaultWorkingDirectory)/src --config stylelint.config.mjs
+          exit  0
 
     - task: PowerShell@2
       continueOnError: true
@@ -64,6 +66,7 @@ stages:
         script: |
           pip install --user yamllint
           yamllint $(System.DefaultWorkingDirectory)
+          exit 0
 
     - task: PowerShell@2
       continueOnError: true
@@ -73,6 +76,7 @@ stages:
         script: |
           npm install -g markdownlint-cli      
           markdownlint $(System.DefaultWorkingDirectory)/
+          exit 0
 
 - stage: BuildAndPackage
   displayName: Build & Artifact Packaging

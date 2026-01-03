@@ -28,7 +28,7 @@ stages:
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
-        script: 'sonar-scanner -Dsonar.token=sqa_158920359fd649e433bdb8559f98a32ff20fdd04'
+        script: 'sonar-scanner --define sonar.projectKey=todo-app-new --define sonar.projectName=todo-app-new --define sonar.sources=src --define sonar.exclusions=node_modules/**,build/** --define sonar.host.url=http://localhost:9000 --define sonar.token=sqa_158920359fd649e433bdb8559f98a32ff20fdd04'
 
 # - stage: CodeQualityChecks
 #   displayName: Code Quality & Linting

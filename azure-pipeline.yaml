@@ -28,7 +28,7 @@ stages:
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
-        script: 'sonar-scanner -Dsonar.projectKey=todo-app-new -Dsonar.projectName=todo-app-new -Dsonar.sources=src -Dsonar.exclusions=node_modules/**,build/** -Dsonar.host.url=http://localhost:9000 -Dsonar.token=$(SONAR_TOKEN)'
+        script: 'sonar-scanner -Dsonar.projectKey=todo-app-new -Dsonar.projectName=todo-app-new -Dsonar.sources=src -Dsonar.exclusions=node_modules/**,build/** -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqa_158920359fd649e433bdb8559f98a32ff20fdd04'
 
 # - stage: CodeQualityChecks
 #   displayName: Code Quality & Linting
